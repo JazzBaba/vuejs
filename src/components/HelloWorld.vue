@@ -43,7 +43,7 @@
             <a
               class="btn btn-primary float-left"
             >POSTS IN PAGE ({{dataDisplay?dataDisplay.length:0}})</a>
-            <a class="btn btn-primary float-right" @click="getMoreData()">Load more &rarr;</a>
+            <a v-if="!isSpinning" class="btn btn-primary float-right" @click="getMoreData()">Load more &rarr;</a>
           </div>
         </div>
       </div>
@@ -75,7 +75,6 @@ export default {
   async beforeMount() {
     await fetchUserData().then(user => {
       this.userList = user;
-      console.log(this.userList);
     });
     await fetchPostData(1, listSize).then(data => {
       this.dataDisplay = data;
@@ -89,7 +88,7 @@ export default {
       fetchPostData(numberOfPages, listSize).then(data => {        
         if (data) {
           this.isSpinning = false;
-          this.dataDisplay = this.dataDisplay.concat(data);/*Need to check if data is already exist  arr1.some(item => arr2.includes(item)) */
+          this.dataDisplay = this.dataDisplay.concat(data);
         }
       });
     },
